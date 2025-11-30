@@ -15,8 +15,8 @@ namespace BibliothekBackEnd {
     public string Sprache { get; set; }
     public string Note { get; set; }
 
-    public int Number { get; }
-    public DateOnly ErscheinungsDatum { get; set; }
+    public int Number { get; set; }
+    public DateTime? ErscheinungsDatum { get; set; }
 
     public List<Bestand>? bestandList { get; set; }  // prevents null reference issues when used elsewhere.
 

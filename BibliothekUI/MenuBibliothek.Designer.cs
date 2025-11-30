@@ -81,6 +81,7 @@
       offnenToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
       offnenToolStripMenuItem.Size = new Size(180, 22);
       offnenToolStripMenuItem.Text = "Offnen";
+      offnenToolStripMenuItem.Click += offnenToolStripMenuItem_Click;
       // 
       // toolStripSeparator1
       // 

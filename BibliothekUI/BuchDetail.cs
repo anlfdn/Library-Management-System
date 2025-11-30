@@ -41,7 +41,8 @@ namespace BibliothekUI {
       this.textBoxSeiteAnzahl.Text = this.buch.SeiteAnzahl;
       this.textBoxLanguage.Text = this.buch.Sprache;
       this.textBoxNote.Text = this.buch.Note;
-      this.dateTimePickerErscheinung.Value = this.buch.ErscheinungsDatum.ToDateTime(new TimeOnly(0,0));
+      //this.dateTimePickerErscheinung.Value = this.buch.ErscheinungsDatum.ToDateTime(new TimeOnly(0,0));
+      this.dateTimePickerErscheinung.Value = this.buch.ErscheinungsDatum.Value;
 
       
     }
@@ -52,7 +53,8 @@ namespace BibliothekUI {
       this.buch.SeiteAnzahl = textBoxSeiteAnzahl.Text;
       this.buch.Sprache = textBoxLanguage.Text;
       this.buch.Note = textBoxNote.Text;
-      this.buch.ErscheinungsDatum = DateOnly.FromDateTime(dateTimePickerErscheinung.Value);
+      //this.buch.ErscheinungsDatum = DateOnly.FromDateTime(dateTimePickerErscheinung.Value);
+      this.buch.ErscheinungsDatum = dateTimePickerErscheinung.Value;
 
       return this.buch;
     }

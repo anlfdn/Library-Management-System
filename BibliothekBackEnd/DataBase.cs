@@ -8,11 +8,11 @@ namespace BibliothekBackEnd {
     [XmlIgnore()]
     public string DateiName { get; set; }
 
-
+    // buraya yazilanlar xmle yaziliyor xmlin sevdigi List var.
     public List<Buch> buchList = new List<Buch>();
-    public List<Bestand> bestandList = new List<Bestand>();
-    public List<Standort> standortList  = new List<Standort>();
-    public List<Reservierung> reservierungList = new List<Reservierung>();
+    //public List<Bestand> bestandList = new List<Bestand>();
+    //public List<Standort> standortList  = new List<Standort>();
+    //public List<Reservierung> reservierungList = new List<Reservierung>();
 
     public static DataBase GetDatei(string dateiName) {
 
