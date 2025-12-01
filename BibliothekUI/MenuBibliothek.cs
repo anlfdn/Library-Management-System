@@ -44,6 +44,7 @@ namespace BibliothekUI {
       {
         // add the created book 
         this.database.buchList.Add(detailBuch.Buch);
+
         // refresh UI
         getListOfBuch();
 

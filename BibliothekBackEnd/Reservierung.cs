@@ -14,7 +14,7 @@ namespace BibliothekBackEnd {
 
     public string Vorname { get; set; }
     public string Nachname { get; set; }
-    public DateOnly AusleihDatum { get; set; }
+    public DateTime AusleihDatum { get; set; }
     public int RestDay { get; set; }
 
     
@@ -25,7 +25,7 @@ namespace BibliothekBackEnd {
 
     }
 
-    public Reservierung(string vorname, string nachname, DateOnly ausleihdatum, int restDay) {
+    public Reservierung(string vorname, string nachname, DateTime ausleihdatum, int restDay) {
       this.Vorname = vorname;
       this.Nachname = nachname;
       this.AusleihDatum = ausleihdatum;

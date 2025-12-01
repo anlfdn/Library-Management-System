@@ -19,7 +19,7 @@ namespace BibliothekUI {
 
     UserControlBestand bestand;
     UserControlStandort standort;
-    UserControlReservierung reservierung;
+     UserControlReservierung reservierung;
 
     public BuchDetail() {
       InitializeComponent();
@@ -44,7 +44,37 @@ namespace BibliothekUI {
       //this.dateTimePickerErscheinung.Value = this.buch.ErscheinungsDatum.ToDateTime(new TimeOnly(0,0));
       this.dateTimePickerErscheinung.Value = this.buch.ErscheinungsDatum.Value;
 
+      // tetkrardan xml den bilgileri yazdirma 
+      ListViewItem item;
+      foreach (var element in this.buch.bestandList) {
+       item =  new ListViewItem();
+        item.Text = Convert.ToString(element.Anzahl);
+        item.SubItems.Add(element.Verfugbar);
+        this.listViewBestand.Items.Add(item);
+      }
       
+      foreach (var element in this.buch.standortList)
+      {
+        item = new ListViewItem();
+        item.Text = Convert.ToString(element.Shelf);
+        item.SubItems.Add(element.Reihe);
+        item.SubItems.Add(element.Position);
+        this.listViewStandort.Items.Add(item);
+      }
+      
+      foreach (Reservierung element in this.buch.reservierungList)
+      {
+        
+        reservierung = new UserControlReservierung(element);
+
+        flowLayoutPanelReservierung.Controls.Add(reservierung);
+      }
+
+
+
+
+
+
     }
     private Buch AddBuchInfo() {
       // Copy UI values into the Buch instance
