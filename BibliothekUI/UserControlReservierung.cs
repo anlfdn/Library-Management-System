@@ -33,7 +33,7 @@ namespace BibliothekUI {
         this.dateTimePickerAusleihdatum.Value, progressBarChanged());
 
         return reservierung;
-
+        
       }
      
     }

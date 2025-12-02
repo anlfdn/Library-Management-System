@@ -95,6 +95,8 @@ namespace BibliothekUI {
           // create a new database file and enable the book menu
           this.database = new DataBase() { DateiName = dialog.FileName };
           this.database.Speichern();
+          statusLabelDatei.Text = this.database.DateiName;
+          this.statusLabelDatei.BackColor = Color.Green;
           this.buchToolStripMenuItem.Enabled = true;
 
 
@@ -109,7 +111,9 @@ namespace BibliothekUI {
         if (MessageBox.Show("Es ist eine Datei geöffnet, vorher speichern?", "Frage", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
         {
           this.database.Speichern();
+         
           this.database = null;
+
         }
 
       }
@@ -123,11 +127,17 @@ namespace BibliothekUI {
         {
           this.database = DataBase.GetDatei(dialog.FileName);
           this.getListOfBuch();
+          statusLabelDatei.Text = this.database.DateiName;
+          this.statusLabelDatei.BackColor = Color.Green;
           this.buchToolStripMenuItem.Enabled = true;
 
         }
 
       }
+    }
+
+    private void MenuBibliothek_Load(object sender, EventArgs e) {
+
     }
   }
 }

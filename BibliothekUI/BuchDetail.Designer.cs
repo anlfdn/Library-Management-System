@@ -57,6 +57,8 @@
       buttonSpeichern = new Button();
       buttonAbbrechen = new Button();
       labelIdNumber = new Label();
+      comboBoxKategorie = new ComboBox();
+      labelKategorie = new Label();
       ((System.ComponentModel.ISupportInitialize)pictureBoxBuch).BeginInit();
       tabControlBuch.SuspendLayout();
       tabPage1.SuspendLayout();
@@ -72,6 +74,8 @@
       pictureBoxBuch.Size = new Size(212, 290);
       pictureBoxBuch.TabIndex = 0;
       pictureBoxBuch.TabStop = false;
+      pictureBoxBuch.DragDrop += pictureBoxBuch_DragDrop;
+      pictureBoxBuch.DragEnter += pictureBoxBuch_DragEnter;
       // 
       // labelName
       // 
@@ -112,7 +116,7 @@
       // labelPublishYear
       // 
       labelPublishYear.AutoSize = true;
-      labelPublishYear.Location = new Point(265, 310);
+      labelPublishYear.Location = new Point(266, 294);
       labelPublishYear.Name = "labelPublishYear";
       labelPublishYear.Size = new Size(112, 15);
       labelPublishYear.TabIndex = 5;
@@ -157,7 +161,7 @@
       // 
       dateTimePickerErscheinung.CustomFormat = "dd.MM.yyyy";
       dateTimePickerErscheinung.Format = DateTimePickerFormat.Custom;
-      dateTimePickerErscheinung.Location = new Point(405, 304);
+      dateTimePickerErscheinung.Location = new Point(405, 294);
       dateTimePickerErscheinung.Name = "dateTimePickerErscheinung";
       dateTimePickerErscheinung.Size = new Size(200, 23);
       dateTimePickerErscheinung.TabIndex = 11;
@@ -350,6 +354,24 @@
       labelIdNumber.Size = new Size(0, 20);
       labelIdNumber.TabIndex = 16;
       // 
+      // comboBoxKategorie
+      // 
+      comboBoxKategorie.FormattingEnabled = true;
+      comboBoxKategorie.Items.AddRange(new object[] { "Unbekannt", "Roman", "Krimi", "Thriller", "Historischer Roman", "Fantasy", "Science-Fiction", "Drama", "Abenteuer" });
+      comboBoxKategorie.Location = new Point(405, 331);
+      comboBoxKategorie.Name = "comboBoxKategorie";
+      comboBoxKategorie.Size = new Size(121, 23);
+      comboBoxKategorie.TabIndex = 17;
+      // 
+      // labelKategorie
+      // 
+      labelKategorie.AutoSize = true;
+      labelKategorie.Location = new Point(266, 334);
+      labelKategorie.Name = "labelKategorie";
+      labelKategorie.Size = new Size(57, 15);
+      labelKategorie.TabIndex = 18;
+      labelKategorie.Text = "Kategorie";
+      // 
       // BuchDetail
       // 
       AcceptButton = buttonSpeichern;
@@ -358,6 +380,8 @@
       BackColor = Color.LightGray;
       CancelButton = buttonAbbrechen;
       ClientSize = new Size(617, 661);
+      Controls.Add(labelKategorie);
+      Controls.Add(comboBoxKategorie);
       Controls.Add(labelIdNumber);
       Controls.Add(buttonAbbrechen);
       Controls.Add(buttonSpeichern);
@@ -422,5 +446,7 @@
     private FlowLayoutPanel flowLayoutPanelBestand;
     private FlowLayoutPanel flowLayoutPanelStandort;
     private Label labelIdNumber;
+    private ComboBox comboBoxKategorie;
+    private Label labelKategorie;
   }
 }

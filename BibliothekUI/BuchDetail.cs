@@ -19,21 +19,25 @@ namespace BibliothekUI {
 
     UserControlBestand bestand;
     UserControlStandort standort;
-     UserControlReservierung reservierung;
+    UserControlReservierung reservierung;
 
     public BuchDetail() {
       InitializeComponent();
+      // Form yuklenirken comboboxa enum degerleri yuklenir.
+      comboBoxKategorie.DataSource = Enum.GetValues(typeof(BuchKategorie));
+
       //buch = new Buch();  // do not create a new object here; it will be created on save if needed
       flowLayoutPanelBestand.Visible = false;
       flowLayoutPanelStandort.Visible = false;
-      
+      this.pictureBoxBuch.AllowDrop = true;
+
     }
     // Called when editing an existing book selected from the main list
-    public Buch Buch { get => this.buch;}  // yukarida biz buch'u private olarak tanimladik. ondan erisim property uzerinden
+    public Buch Buch { get => this.buch; }  // yukarida biz buch'u private olarak tanimladik. ondan erisim property uzerinden
 
     // Assign the book coming from MenuBibliothek so we edit the same instance
-    public BuchDetail(Buch buchDoubleClick) : this(){
-    
+    public BuchDetail(Buch buchDoubleClick) : this() {
+
       this.buch = buchDoubleClick;
       this.labelIdNumber.Text = buchDoubleClick.Number.ToString("0####");
       this.textBoxName.Text = this.buch.Name;
@@ -43,16 +47,20 @@ namespace BibliothekUI {
       this.textBoxNote.Text = this.buch.Note;
       //this.dateTimePickerErscheinung.Value = this.buch.ErscheinungsDatum.ToDateTime(new TimeOnly(0,0));
       this.dateTimePickerErscheinung.Value = this.buch.ErscheinungsDatum.Value;
+      this.comboBoxKategorie.SelectedItem = this.buch.Kategorie;
+      if (this.buch.BildBytes != null) this.pictureBoxBuch.Image = Image.FromStream(new MemoryStream(this.buch.BildBytes));
+
 
       // tetkrardan xml den bilgileri yazdirma 
       ListViewItem item;
-      foreach (var element in this.buch.bestandList) {
-       item =  new ListViewItem();
+      foreach (var element in this.buch.bestandList)
+      {
+        item = new ListViewItem();
         item.Text = Convert.ToString(element.Anzahl);
         item.SubItems.Add(element.Verfugbar);
         this.listViewBestand.Items.Add(item);
       }
-      
+
       foreach (var element in this.buch.standortList)
       {
         item = new ListViewItem();
@@ -61,21 +69,23 @@ namespace BibliothekUI {
         item.SubItems.Add(element.Position);
         this.listViewStandort.Items.Add(item);
       }
-      
+
       foreach (Reservierung element in this.buch.reservierungList)
       {
-        
+
         reservierung = new UserControlReservierung(element);
 
         flowLayoutPanelReservierung.Controls.Add(reservierung);
       }
 
-
-
-
-
-
     }
+
+
+
+
+
+
+
     private Buch AddBuchInfo() {
       // Copy UI values into the Buch instance
       this.buch.Name = textBoxName.Text;
@@ -85,6 +95,9 @@ namespace BibliothekUI {
       this.buch.Note = textBoxNote.Text;
       //this.buch.ErscheinungsDatum = DateOnly.FromDateTime(dateTimePickerErscheinung.Value);
       this.buch.ErscheinungsDatum = dateTimePickerErscheinung.Value;
+      this.buch.Kategorie = (BuchKategorie)comboBoxKategorie.SelectedItem;
+      
+
 
       return this.buch;
     }
@@ -134,34 +147,34 @@ namespace BibliothekUI {
     private void buttonSpeichern_Click(object sender, EventArgs e) {
       // Create the Buch object here only if it doesn't exist yet (new book case)
 
-      
+
 
       if (buch == null)
       {
         buch = new Buch();  /// !!!!!!!!!!!!!!!!!
-        
+
       }
       // Fill the Buch instance with values from the form
       AddBuchInfo();
       // If the user never opened a section, do not add anything to that list
       if (reservierung != null)
-        {
-          this.buch.reservierungList.Add(reservierung.Reservierung);
-        }
-        if (bestand != null)
-        {
-          this.buch.bestandList.Add(bestand.bestandZustand);
+      {
+        this.buch.reservierungList.Add(reservierung.Reservierung);
+      }
+      if (bestand != null)
+      {
+        this.buch.bestandList.Add(bestand.bestandZustand);
 
-        }
-        if (standort != null)
-        {
+      }
+      if (standort != null)
+      {
 
-          this.buch.standortList.Add(standort.standort);
-        }
-        
-        this.DialogResult = DialogResult.OK;
-          
-        this.Close();
+        this.buch.standortList.Add(standort.standort);
+      }
+
+      this.DialogResult = DialogResult.OK;
+
+      this.Close();
     }
     private void buttonNeuStandort_Click(object sender, EventArgs e) {
 
@@ -209,6 +222,50 @@ namespace BibliothekUI {
     private void buttonAbbrechen_Click(object sender, EventArgs e) {
       this.DialogResult = DialogResult.Cancel;
       this.Close();
+    }
+
+    // standard pattern. 
+    private void pictureBoxBuch_DragDrop(object sender, DragEventArgs e) {
+      // suruklendiginde dosya geliyor mu? hersey suruklenebilir ama biz sadece dosya istiyoruz.
+      if (e.Data.GetDataPresent(DataFormats.FileDrop))
+      {
+
+        // suruklenen sey bir dosya oldugu onaylaninca, bu satir birakilan tum dosyalarin tam yolunu string[] olarak aliyor.
+        // or. C:\Users\Febe\Pictures\dragon.jpg
+        string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+        // sadece 1 dosya kabul ediyorum ve jpg yada png
+        if (files.Length == 1 && (Path.GetExtension(files[0]).ToLower() == ".jpg" || Path.GetExtension(files[0]).ToLower() == ".png"))
+        {
+          // secilen dosyayi byte olarak okuyor. neden byte cunki xml'e direk image yazamazsin.
+          // Image → byte[] → base64 → XML formatı şeklinde gider.
+          this.buch.BildBytes = File.ReadAllBytes(files[0]);
+          
+          //👉 byte[] içindeki resmi MemoryStream içine koyuyorsun.
+          //Image sınıfı, byte[]’den direkt yüklenmez; MemoryStream gerekir.
+          //MemoryStream =   // byte [] verisini bir dosya gibi okunabilir hale getirir.Image sinifi dogrudan byte [] alamanz. Stream ister.
+          MemoryStream memoryStream = new MemoryStream(this.buch.BildBytes);
+
+          //MemoryStream içindeki byte verisinden bir Bitmap (resim) oluşturuyorsun ve PictureBox’a gösteriyorsun.
+          // Bitmap = MemoryStream icindeki bytlari okuyarak  bir gercek resim objesi olusturur.
+
+          // oluşturulan Bitmap resmini UI'da gösterir.
+          this.pictureBoxBuch.Image = new Bitmap(memoryStream);
+
+        }
+
+      }
+    }
+
+    private void pictureBoxBuch_DragEnter(object sender, DragEventArgs e) {
+      if (e.Data.GetDataPresent(DataFormats.FileDrop)) {
+
+        string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+        if (files.Length == 1 && (Path.GetExtension(files[0]).ToLower() == ".jpg" || Path.GetExtension(files[0]).ToLower() == ".png"))
+          e.Effect = DragDropEffects.Copy;
+        else
+          e.Effect = DragDropEffects.None;
+
+      }else e.Effect = DragDropEffects.None;
     }
   }
 

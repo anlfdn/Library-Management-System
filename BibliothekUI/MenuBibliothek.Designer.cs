@@ -71,7 +71,7 @@
       // 
       neuToolStripMenuItem.Name = "neuToolStripMenuItem";
       neuToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.N;
-      neuToolStripMenuItem.Size = new Size(180, 22);
+      neuToolStripMenuItem.Size = new Size(166, 22);
       neuToolStripMenuItem.Text = "Neu";
       neuToolStripMenuItem.Click += neuToolStripMenuItem_Click;
       // 
@@ -79,20 +79,20 @@
       // 
       offnenToolStripMenuItem.Name = "offnenToolStripMenuItem";
       offnenToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.O;
-      offnenToolStripMenuItem.Size = new Size(180, 22);
+      offnenToolStripMenuItem.Size = new Size(166, 22);
       offnenToolStripMenuItem.Text = "Offnen";
       offnenToolStripMenuItem.Click += offnenToolStripMenuItem_Click;
       // 
       // toolStripSeparator1
       // 
       toolStripSeparator1.Name = "toolStripSeparator1";
-      toolStripSeparator1.Size = new Size(177, 6);
+      toolStripSeparator1.Size = new Size(163, 6);
       // 
       // speichernToolStripMenuItem
       // 
       speichernToolStripMenuItem.Name = "speichernToolStripMenuItem";
       speichernToolStripMenuItem.ShortcutKeys = Keys.Control | Keys.S;
-      speichernToolStripMenuItem.Size = new Size(180, 22);
+      speichernToolStripMenuItem.Size = new Size(166, 22);
       speichernToolStripMenuItem.Text = "Speichern";
       speichernToolStripMenuItem.Click += speichernToolStripMenuItem_Click;
       // 
@@ -194,6 +194,7 @@
       Name = "MenuBibliothek";
       StartPosition = FormStartPosition.CenterScreen;
       Text = "Menu";
+      Load += MenuBibliothek_Load;
       menuStrip1.ResumeLayout(false);
       menuStrip1.PerformLayout();
       statusStrip1.ResumeLayout(false);
